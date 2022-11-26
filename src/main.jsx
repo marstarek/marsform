@@ -13,6 +13,13 @@ import {
   Route,
 } from "react-router-dom";
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
+import {setAuthToken} from './components/setAuthToken/setAuthToken'
+
+ //check jwt token
+ const token = localStorage.getItem("token");
+ if (token) {
+     setAuthToken(token);
+ }
 const router = createBrowserRouter([
   {
     path: "/",

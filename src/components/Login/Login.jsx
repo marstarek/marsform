@@ -2,12 +2,41 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
+import axios from 'axios';
+import { Navigate } from 'react-router'
+import { setAuthToken } from "../setAuthToken/setAuthToken"
 
 import "./Login.css";
 
 export default function Login() {
+  // 
+ 
+  // 
   const { register, handleSubmit, watch, formState: { errors } } = useForm();
-  const onSubmit = data => { console.log(data.email, data.password); }
+  const onSubmit = data => {
+    console.log(data.email, data.password);
+     //reqres registered sample user
+     const loginPayload = {
+      email: 'tarekahmed@gmail.com',
+      password: 'tarekahmed'
+    }
+  
+    axios.post("https://reqres.in/api/login", loginPayload)
+      .then(response => {
+        //get token from response
+        const token  =  response.data.token;
+        console.log(response.data.token)
+        //set JWT token to local
+        localStorage.setItem("token", token);
+  
+        //set token to axios common header
+        setAuthToken(token);
+  
+           //redirect user to home page
+           <Navigate to='/' />
+        // window.location.href = '/'
+      })
+      .catch(err => console.log(err));}
   return (
 
     <section className="bg-gray-50">
@@ -26,8 +55,9 @@ export default function Login() {
                   {...register("email", {
                     required: "Email Address is required", minLength: {
                       value: 11,
+                      
                       message: "This input must exceed 10 characters"
-                    }
+                    },pattern: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
                   })}
                 />
                 <ErrorMessage errors={errors} name="email" />
@@ -36,7 +66,7 @@ export default function Login() {
                 <label for="password" className=" mb-2 text-sm  ">Password</label>
                 <input type="password" name="password" id="password" placeholder="••••••••" className=" border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5   "      {...register("password", {
                   required: "password Address is required", minLength: {
-                    value: 11,
+                    value: 8,
                     message: "This input must exceed 10 characters"
                   }
                 })} />
