@@ -4,11 +4,15 @@ import App from './App'
 import './index.css'
 import ErrorPage from "./components/ErrorPage/ErrorPage";
 import Home from "./components/Home/Home";
+import Layout from './components/Layout/Layout';
+import Login from "./components/Login/Login";
+
 import {
   createBrowserRouter,
   RouterProvider,
   Route,
 } from "react-router-dom";
+import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 const router = createBrowserRouter([
   {
     path: "/",
@@ -17,13 +21,20 @@ const router = createBrowserRouter([
   },
   {
     path: "/home",
-    element: <Home />,
+    element:
+      <ProtectedRoute>
+        <Home />
+      </ProtectedRoute>
+  },
+  {
+    path: "/login",
+    element: <Login />,
   },
 ]);
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
 
-      <RouterProvider router={router} />
+    <RouterProvider router={router} />
 
   </React.StrictMode>
 )
