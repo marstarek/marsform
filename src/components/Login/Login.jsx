@@ -4,21 +4,25 @@ import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import axios from 'axios';
 import { Navigate } from 'react-router'
-import { setAuthToken } from "../setAuthToken/setAuthToken"
+import  axiosClient  from "../axiosClient/axiosClient"
+import { useNavigate } from "react-router-dom";
 
 import "./Login.css";
 
 export default function Login() {
+
+  const navigate = useNavigate();
   // 
  
   // 
   const { register, handleSubmit, watch, formState: { errors } } = useForm();
-  const onSubmit = data => {
+  const onSubmit = (data,e) => {
+    e.preventDefault();
     console.log(data.email, data.password);
      //reqres registered sample user
      const loginPayload = {
-      email: 'tarekahmed@gmail.com',
-      password: 'tarekahmed'
+    "email": "eve.holt@reqres.in",
+    "password": "cityslick0a"
     }
   
     axios.post("https://reqres.in/api/login", loginPayload)
@@ -30,10 +34,11 @@ export default function Login() {
         localStorage.setItem("token", token);
   
         //set token to axios common header
-        setAuthToken(token);
+        // axiosClient(token);
   
            //redirect user to home page
-           <Navigate to='/' />
+           navigate("/");
+
         // window.location.href = '/'
       })
       .catch(err => console.log(err));}

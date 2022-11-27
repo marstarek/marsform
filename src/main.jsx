@@ -13,12 +13,12 @@ import {
   Route,
 } from "react-router-dom";
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
-import {setAuthToken} from './components/setAuthToken/setAuthToken'
+import axiosClient from './components/axiosClient/axiosClient'
 
- //check jwt token
+//  check jwt token
  const token = localStorage.getItem("token");
  if (token) {
-     setAuthToken(token);
+     axiosClient(token);
  }
 const router = createBrowserRouter([
   {
