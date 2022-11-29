@@ -11,6 +11,7 @@ import {
   createBrowserRouter,
   RouterProvider,
   Route,
+  Navigate,
 } from "react-router-dom";
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import axiosClient from './components/axiosClient/axiosClient'
@@ -35,7 +36,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/login",
-    element: <Login />,
+    element: token ? <Navigate to={'/'}/>:  <Login />,
   },
 ]);
 ReactDOM.createRoot(document.getElementById('root')).render(
